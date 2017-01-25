@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `resolved_news_type` (
 
 /*creating a table unresolved_newtype*/
 
-CREATE TABLE IF NOT EXISTS unresolved_news_type (
+CREATE TABLE IF NOT EXISTS `unresolved_news_type` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`unresolved_news_type_name` VARCHAR(250) DEFAULT NULL, 
 	CONSTRAINT pk_unresolved_news_type_id PRIMARY KEY(id)
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS map_unresolved_resolved_news_type (
 /*creating table resolved_location*/
 
 CREATE TABLE IF NOT EXISTS resolved_location (
-	id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	resolved_location_name VARCHAR(250) NOT NULL UNIQUE, 
+	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`resolved_location_name` VARCHAR(250) NOT NULL UNIQUE, 
 	CONSTRAINT pk_resolved_location_id PRIMARY KEY(id)
 	) AUTO_INCREMENT=1;
 
@@ -75,17 +75,6 @@ CREATE TABLE IF NOT EXISTS source (
 	) AUTO_INCREMENT=1;
 
 
-/*creating table author*/
-
-CREATE TABLE IF NOT EXISTS author (
-	`id` SMALLINT(4) NOT NULL AUTO_INCREMENT ,
-	`author_name` VARCHAR(250) NOT NULL UNIQUE,
-	`source_id` SMALLINT UNSIGNED,
-	CONSTRAINT pk_author_id PRIMARY KEY(id),
-	CONSTRAINT fk_author_source_id FOREIGN KEY(source_id) 
-	REFERENCES source(id) ON DELETE NO ACTION
-	) AUTO_INCREMENT=1;
-
 /*creating table article_download*/
 
 CREATE TABLE IF NOT EXISTS article_download (
@@ -95,6 +84,7 @@ CREATE TABLE IF NOT EXISTS article_download (
 	`article_download_last_updated_date` DATETIME NOT NULL,
 	`is_parsed` tinyint(1) default 0,
 	CONSTRAINT pk_article_main_id PRIMARY KEY(id))AUTO_INCREMENT=1;
+
 
 /*creating table article_parsed*/
 
@@ -107,7 +97,6 @@ CREATE TABLE IF NOT EXISTS article_parsed (
 	`created_date` DATETIME NOT NULL,
 	`last_updated_date` DATETIME NOT NULL,
 	`unresolved_location_id` SMALLINT UNSIGNED ,
-	`author_id` SMALLINT(4) NOT NULL,
 	`source_id` SMALLINT UNSIGNED NOT NULL,
 	`unique_id` VARCHAR(250) NOT NULL UNIQUE,
 	`article_download_id` INT UNSIGNED NOT NULL,
@@ -119,8 +108,6 @@ CREATE TABLE IF NOT EXISTS article_parsed (
 	REFERENCES unresolved_news_type(id) ON DELETE NO ACTION,
 	CONSTRAINT fk_article_location_id FOREIGN KEY(unresolved_location_id) 
 	REFERENCES unresolved_location(id) ON DELETE NO ACTION,
-	CONSTRAINT fk_content_author_id FOREIGN KEY(author_id) 
-	REFERENCES author(id) ON DELETE NO ACTION,
 	CONSTRAINT fk_content_source_id FOREIGN KEY(source_id) 
 	REFERENCES source(id) ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
@@ -136,6 +123,16 @@ CREATE TABLE IF NOT EXISTS article_content (
 	REFERENCES article_parsed(id) ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
 
+/*creating table author*/
+
+CREATE TABLE IF NOT EXISTS author (
+	`id` SMALLINT(4) NOT NULL AUTO_INCREMENT ,
+	`author_name` VARCHAR(250) NOT NULL UNIQUE,
+	`article_parsed_id` INT UNSIGNED NOT NULL,
+	CONSTRAINT pk_author_id PRIMARY KEY(id),
+	CONSTRAINT fk_author_article_id FOREIGN KEY(article_parsed_id) 
+	REFERENCES article_parsed(id) ON DELETE NO ACTION
+	) AUTO_INCREMENT=1;
 
 
 
