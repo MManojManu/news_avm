@@ -7,7 +7,6 @@ from .models import (ResolvedNewsType, UnresolvedNewsType, MapUnresolvedResolved
 
 class ResolvedNewsTypeAdmin(admin.ModelAdmin):
     fields = ['resolved_news_type_name']
-    readonly_fields = ['resolved_news_type_name']
 
 
 class UnresolvedNewsTypeAdmin(admin.ModelAdmin):
