@@ -31,13 +31,11 @@ class MapUnresolvedResolvedLocationAdmin(admin.ModelAdmin):
 
 class SourceAdmin(admin.ModelAdmin):
     fields = ['source_name', 'source_url']
-    readonly_fields = ['source_name', 'source_url']
+
 
 
 class ArticleDownloadAdmin(admin.ModelAdmin):
     fields = ['local_file_path', 'article_download_created_date',
-              'article_download_last_updated_date', 'is_parsed']
-    readonly_fields = ['local_file_path', 'article_download_created_date',
               'article_download_last_updated_date', 'is_parsed']
 
 

@@ -4,13 +4,13 @@ from datetime import datetime
 
 
 class ResolvedNewsType(models.Model):
-    resolved_news_type_name = models.CharField(max_length=250, unique=True)
+    resolved_news_type_name = models.CharField(max_length=250)
 
     def __str__(self):
         return self.resolved_news_type_name
 
     class Meta:
-        db_table = 'ResolvedNewsType'
+        db_table = 'resolved_news_type'
         verbose_name = 'Resolved News Type'
         managed = False
 
@@ -22,7 +22,7 @@ class UnresolvedNewsType(models.Model):
         return self.unresolved_news_type_name
 
     class Meta:
-        db_table = 'UnResolvedNewsType'
+        db_table = 'unresolved_news_type'
         verbose_name = 'UnResolved News Type'
         managed = False
 
@@ -35,7 +35,7 @@ class MapUnresolvedResolvedNewsType(models.Model):
         return self.resolved_news_type.resolved_news_type_name
 
     class Meta:
-        db_table = 'MapUnresolvedResolvedNewsType'
+        db_table = 'map_unresolved_resolved_news_type'
         verbose_name = 'Map Unresolved Resolved News Type'
         managed = False
 
@@ -47,7 +47,7 @@ class ResolvedLocation(models.Model):
         return self.resolved_location_name
 
     class Meta:
-        db_table = 'ResolvedLocation'
+        db_table = 'resolved_location'
         verbose_name = 'Resolved Location'
         managed = False
 
@@ -59,7 +59,7 @@ class UnresolvedLocation(models.Model):
         return self.unresolved_location_name
 
     class Meta:
-        db_table = 'UnresolvedLocation'
+        db_table = 'unresolved_location'
         verbose_name = 'UnResolved Location'
         managed = False
 
@@ -69,7 +69,7 @@ class MapUnresolvedResolvedLocation(models.Model):
     unresolved_location = models.ForeignKey(UnresolvedLocation, on_delete=models.DO_NOTHING, unique=True)
 
     class Meta:
-        db_table = 'MapUnresolvedResolvedLocation'
+        db_table = 'map_unresolved_resolved_location'
         verbose_name = 'Map Unresolved Resolved Location'
         managed = False
 
@@ -82,7 +82,7 @@ class Source(models.Model):
         return self.source_name
 
     class Meta:
-        db_table = 'Source'
+        db_table = 'source'
         verbose_name = 'Source'
         managed = False
 
@@ -94,7 +94,7 @@ class ArticleDownload(models.Model):
     is_parsed = models.SmallIntegerField
 
     class Meta:
-        db_table = 'ArticleDownload'
+        db_table = 'article_download'
         verbose_name = 'Article Download'
         managed = False
 
@@ -115,7 +115,7 @@ class ArticleParsed(models.Model):
         return self.article_title
 
     class Meta:
-        db_table = 'ArticleParsed'
+        db_table = 'article_parsed'
         verbose_name = 'Article Parsed'
         managed = False
 
@@ -125,7 +125,7 @@ class ArticleContent(models.Model):
     contents = models.TextField(max_length=1)
 
     class Meta:
-        db_table = 'ArticleContent'
+        db_table = 'article_content'
         verbose_name = 'Article Content'
         managed = False
 
@@ -135,6 +135,6 @@ class Author(models.Model):
     article_parsed = models.ForeignKey(ArticleParsed, on_delete=models.DO_NOTHING)
 
     class Meta:
-        db_table = 'Author'
+        db_table = 'author'
         verbose_name = 'Author'
         managed = False
