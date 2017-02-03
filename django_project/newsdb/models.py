@@ -28,8 +28,10 @@ class UnresolvedNewsType(models.Model):
 
 
 class MapUnresolvedResolvedNewsType(models.Model):
-    resolved_news_type = models.ForeignKey(ResolvedNewsType, on_delete=models.DO_NOTHING)
-    unresolved_news_type = models.ForeignKey(UnresolvedNewsType, on_delete=models.DO_NOTHING, unique=True)
+    resolved_news_type = models.ForeignKey(ResolvedNewsType,
+                                           on_delete=models.DO_NOTHING)
+    unresolved_news_type = models.ForeignKey(UnresolvedNewsType,
+                                             on_delete=models.DO_NOTHING, unique=True)
 
     def __str__(self):
         return self.resolved_news_type.resolved_news_type_name
@@ -43,7 +45,7 @@ class MapUnresolvedResolvedNewsType(models.Model):
 class ResolvedLocation(models.Model):
     resolved_location_name = models.CharField(max_length=250, unique=True)
 
-    def get_resolved_location(self):
+    def __str__(self):
         return self.resolved_location_name
 
     class Meta:
@@ -55,7 +57,7 @@ class ResolvedLocation(models.Model):
 class UnresolvedLocation(models.Model):
     unresolved_location_name = models.CharField(max_length=250)
 
-    def get_unresolved_location(self):
+    def __str__(self):
         return self.unresolved_location_name
 
     class Meta:
@@ -66,7 +68,11 @@ class UnresolvedLocation(models.Model):
 
 class MapUnresolvedResolvedLocation(models.Model):
     resolved_location = models.ForeignKey(ResolvedLocation, on_delete=models.DO_NOTHING)
-    unresolved_location = models.ForeignKey(UnresolvedLocation, on_delete=models.DO_NOTHING, unique=True)
+    unresolved_location = models.ForeignKey(UnresolvedLocation,
+                                            on_delete=models.DO_NOTHING, unique=True)
+
+    def __str__(self):
+        return self.resolved_location.resolved_location_name
 
     class Meta:
         db_table = 'map_unresolved_resolved_location'
@@ -78,7 +84,7 @@ class Source(models.Model):
     source_name = models.CharField(max_length=250, unique=True)
     source_url = models.CharField(max_length=250)
 
-    def get_source_name(self):
+    def __str__(self):
         return self.source_name
 
     class Meta:
@@ -91,7 +97,10 @@ class ArticleDownload(models.Model):
     local_file_path = models.CharField(max_length=250)
     article_download_created_date = models.DateTimeField(default=datetime.now)
     article_download_last_updated_date = models.DateTimeField(default=datetime.now)
-    is_parsed = models.SmallIntegerField
+    is_parsed = models.SmallIntegerField(max_length=1)
+
+    def __int__(self):
+        return self.local_file_path
 
     class Meta:
         db_table = 'article_download'
@@ -101,17 +110,19 @@ class ArticleDownload(models.Model):
 
 class ArticleParsed(models.Model):
     article_title = models.CharField(max_length=250)
-    unresolved_news_type = models.ForeignKey(UnresolvedNewsType, on_delete=models.DO_NOTHING)
+    unresolved_news_type = models.ForeignKey(UnresolvedNewsType,
+                                             on_delete=models.DO_NOTHING)
     url = models.CharField(max_length=250)
     published_date = models.DateTimeField(default=datetime.now)
     created_date = models.DateTimeField(default=datetime.now)
     last_updated_date = models.DateTimeField(default=datetime.now)
-    unresolved_location = models.ForeignKey(UnresolvedLocation, on_delete=models.DO_NOTHING)
+    unresolved_location = models.ForeignKey(UnresolvedLocation,
+                                            on_delete=models.DO_NOTHING)
     source = models.ForeignKey(Source, on_delete=models.DO_NOTHING)
-    unique = models.CharField(max_length=250)
+    unique_id = models.CharField(max_length=250)
     article_download = models.ForeignKey(ArticleDownload, on_delete=models.DO_NOTHING)
 
-    def get_article_title(self):
+    def __str__(self):
         return self.article_title
 
     class Meta:
@@ -122,7 +133,10 @@ class ArticleParsed(models.Model):
 
 class ArticleContent(models.Model):
     article_parsed = models.ForeignKey(ArticleParsed, on_delete=models.DO_NOTHING)
-    contents = models.TextField(max_length=1)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.article_parsed.article_title
 
     class Meta:
         db_table = 'article_content'
@@ -133,6 +147,9 @@ class ArticleContent(models.Model):
 class Author(models.Model):
     author_name = models.CharField(max_length=250)
     article_parsed = models.ForeignKey(ArticleParsed, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.author_name
 
     class Meta:
         db_table = 'author'

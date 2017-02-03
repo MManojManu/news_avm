@@ -1,4 +1,4 @@
-/*creates a database if it already exists it uses*/
+/*creates a database or if it already exists it uses*/
 
 CREATE DATABASE IF NOT EXISTS `newsdb`;
 
@@ -6,7 +6,7 @@ CREATE DATABASE IF NOT EXISTS `newsdb`;
 
 use `newsdb`;
 
-/*creating a table newstype*/
+/*creating a table resolved_news_type*/
 
 CREATE TABLE IF NOT EXISTS `resolved_news_type` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `resolved_news_type` (
 	CONSTRAINT pk_resolved_news_type_id PRIMARY KEY(`id`)
 	) AUTO_INCREMENT=1;
 
-/*creating a table unresolved_newtype*/
+/*creating a table unresolved_news_type*/
 
 CREATE TABLE IF NOT EXISTS `unresolved_news_type` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `unresolved_news_type` (
 	CONSTRAINT pk_unresolved_news_type_id PRIMARY KEY(`id`)
 	) AUTO_INCREMENT=1;
 
-/*creating resolved_newtype*/
+/*creating a table map_unresolved_resolved_news_type*/
 
-CREATE TABLE IF NOT EXISTS map_unresolved_resolved_news_type (
+CREATE TABLE IF NOT EXISTS `map_unresolved_resolved_news_type` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`resolved_news_type_id` SMALLINT UNSIGNED NOT NULL ,
 	`unresolved_news_type_id` SMALLINT UNSIGNED NOT NULL UNIQUE,
@@ -36,25 +36,25 @@ CREATE TABLE IF NOT EXISTS map_unresolved_resolved_news_type (
 	ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
 
-/*creating table resolved_location*/
+/*creating a table resolved_location*/
 
-CREATE TABLE IF NOT EXISTS resolved_location (
+CREATE TABLE IF NOT EXISTS `resolved_location` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`resolved_location_name` VARCHAR(250) NOT NULL UNIQUE, 
 	CONSTRAINT pk_resolved_location_id PRIMARY KEY(`id`)
 	) AUTO_INCREMENT=1;
 
-/*creating table unresolved_location*/
+/*creating a table unresolved_location*/
 
-CREATE TABLE IF NOT EXISTS unresolved_location (
+CREATE TABLE IF NOT EXISTS `unresolved_location` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`unresolved_location_name` VARCHAR(250) DEFAULT NULL, 
 	CONSTRAINT pk_unresolved_location_id PRIMARY KEY(`id`)
 	) AUTO_INCREMENT=1;
 
-/*creating table map_unresolved_resolved_location*/
+/*creating a table map_unresolved_resolved_location*/
 
-CREATE TABLE IF NOT EXISTS map_unresolved_resolved_location (
+CREATE TABLE IF NOT EXISTS `map_unresolved_resolved_location` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`resolved_location_id` SMALLINT UNSIGNED NOT NULL ,
 	`unresolved_location_id` SMALLINT UNSIGNED NOT NULL UNIQUE,
@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS map_unresolved_resolved_location (
 	REFERENCES unresolved_location(`id`) ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
 
-/*creating table source*/
+/*creating a table source*/
 
-CREATE TABLE IF NOT EXISTS source (
+CREATE TABLE IF NOT EXISTS `source` (
 	`id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT ,
 	`source_name` VARCHAR(250) NOT NULL UNIQUE,
 	`source_url` VARCHAR(250) NOT NULL,
@@ -75,9 +75,9 @@ CREATE TABLE IF NOT EXISTS source (
 	) AUTO_INCREMENT=1;
 
 
-/*creating table article_download*/
+/*creating a table article_download*/
 
-CREATE TABLE IF NOT EXISTS article_download (
+CREATE TABLE IF NOT EXISTS `article_download` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`local_file_path` VARCHAR(250) NOT NULL,
 	`article_download_created_date` DATETIME NOT NULL,
@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS article_download (
 	CONSTRAINT pk_article_main_id PRIMARY KEY(`id`))AUTO_INCREMENT=1;
 
 
-/*creating table article_parsed*/
+/*creating a table article_parsed*/
 
-CREATE TABLE IF NOT EXISTS article_parsed (
+CREATE TABLE IF NOT EXISTS `article_parsed` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`article_title` VARCHAR(250) NOT NULL,
 	`unresolved_news_type_id` SMALLINT UNSIGNED NOT NULL,
@@ -112,9 +112,9 @@ CREATE TABLE IF NOT EXISTS article_parsed (
 	REFERENCES source(`id`) ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
 
-/*creating table article_content*/
+/*creating a table article_content*/
 
-CREATE TABLE IF NOT EXISTS article_content (
+CREATE TABLE IF NOT EXISTS `article_content` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`article_parsed_id` INT UNSIGNED NOT NULL,
 	`content` TEXT NOT NULL,
@@ -123,9 +123,9 @@ CREATE TABLE IF NOT EXISTS article_content (
 	REFERENCES article_parsed(`id`) ON DELETE NO ACTION
 	) AUTO_INCREMENT=1;
 
-/*creating table author*/
+/*creating a table author*/
 
-CREATE TABLE IF NOT EXISTS author (
+CREATE TABLE IF NOT EXISTS `author` (
 	`id` SMALLINT(4) NOT NULL AUTO_INCREMENT ,
 	`author_name` VARCHAR(250) NOT NULL UNIQUE,
 	`article_parsed_id` INT UNSIGNED NOT NULL,

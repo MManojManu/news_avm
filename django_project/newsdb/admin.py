@@ -40,13 +40,13 @@ class ArticleDownloadAdmin(admin.ModelAdmin):
 
 
 class ArticleParsedAdmin(admin.ModelAdmin):
-    fields = ['article_title', 'unresolved_news_type'
+    fields = ['article_title', 'unresolved_news_type',
               'url', 'published_date', 'created_date', 'last_updated_date',
-              'unresolved_location', 'source', 'unique', 'article_download']
+              'unresolved_location', 'source', 'unique_id', 'article_download']
 
 
 class ArticleContentAdmin(admin.ModelAdmin):
-    fields = ['article_parsed', 'contents']
+    fields = ['article_parsed', 'content']
 
 
 class AuthorAdmin(admin.ModelAdmin):

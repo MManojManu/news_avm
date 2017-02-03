@@ -18,6 +18,6 @@ from django.contrib import admin
 
 
 urlpatterns = [
-    url(r'^newsdb/', include('newsdb.urls')),
+    url(r'^', include('newsdb.urls')),
     url(r'^admin/', admin.site.urls),
 ]
